@@ -1,0 +1,56 @@
+# Secrets / local configuration
+.env
+*.env
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+credentials/
+
+# Malware samples
+samples/
+malware/
+malware-samples/
+*.exe
+*.dll
+*.scr
+*.ps1
+*.bat
+*.cmd
+*.js
+*.vbs
+*.xls
+*.xlsx
+*.doc
+*.docm
+
+# VM / installer media
+*.qcow2
+*.vmdk
+*.vdi
+*.iso
+*.img
+
+# Captures / analysis output
+*.pcap
+*.pcapng
+reports/
+storage/
+analysis/
+analyses/
+screenshots/
+shots/
+
+# Archives / backups
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.zip
+
+# Logs / runtime
+*.log
+__pycache__/
+.DS_Store
+Thumbs.db
