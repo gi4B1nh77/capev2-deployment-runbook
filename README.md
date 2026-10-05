@@ -770,25 +770,10 @@ Set-Service WSearch -StartupType Disabled
 
 ```powershell
 Set-MpPreference -DisableRealtimeMonitoring $true
-```
-
-```powershell
 Set-MpPreference -DisableBehaviorMonitoring $true
-```
-
-```powershell
 Set-MpPreference -DisableIOAVProtection $true
-```
-
-```powershell
 Set-MpPreference -DisableScriptScanning $true
-```
-
-```powershell
 Set-MpPreference -DisableBlockAtFirstSeen $true
-```
-
-```powershell
 Set-MpPreference -EnableNetworkProtection Disabled
 ```
 
@@ -1151,13 +1136,6 @@ ip -br addr show virbr0
 
 ss -lntp | grep -E '2042|27017'
 
-virsh -c qemu:///system list --all
-
-virsh -c qemu:///system snapshot-list cuckoo1
-
-virsh -c qemu:///system snapshot-info cuckoo1 clean-realistic
-
-tail -n 50 /var/log/cape-runtime-check.log
 ```
 
 Quick CAPE log:
@@ -1196,6 +1174,14 @@ Check VM State
 ```bash
 
 virsh -c qemu:///system domstate cuckoo1
+
+virsh -c qemu:///system list --all
+
+virsh -c qemu:///system snapshot-list cuckoo1
+
+virsh -c qemu:///system snapshot-info cuckoo1 clean-realistic
+
+tail -n 50 /var/log/cape-runtime-check.log
 ```
 
 Start and Destroy VM
