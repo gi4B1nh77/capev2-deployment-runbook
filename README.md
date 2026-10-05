@@ -403,6 +403,7 @@ enabled = yes
 ```
 
 Install all dependencies and enable Mitre, Bingraph
+```bash
 
 cd /opt/CAPEv2
 
@@ -414,36 +415,21 @@ sudo -u cape -H /etc/poetry/bin/poetry run python -c "from binGraph.binGraph imp
 
 sudo -u cape -H /etc/poetry/bin/poetry run pip install -U git+https://github.com/CAPESandbox/pyattck/
 
+```
 ```bash
 [bingraph]
-```
-
 ```bash
 enabled = yes
-```
-
-```bash
 on_demand = yes
-```
-
-```bash
 binary = yes
-```
-
-```bash
 cape = yes
-```
-
-```bash
-..
-```
-
-```ini
+....
 [mitre]
 enabled = yes
 ```
-
+```bash
 systemctl restart cape-processor cape-web
+```
 
 ### 8.5 kvm.conf - create the machine entry before snapshot name exists
 
@@ -536,14 +522,17 @@ sudo systemctl restart cape-web
 ```
 
 ### CAPE WEB
+```bash
 
 systemctl cat cape-web
 
 ss -lntp | grep -E ':8000|:8080|:8888'
+```
 
 bind Web to localhost: Change ExecStart = ...from 0.0.0.0:8000 to 127.0.0.1:8000
 
 Change:
+```bash
 
 systemctl edit --full cape-web
 
@@ -551,7 +540,8 @@ systemctl daemon-reload
 
 systemctl restart cape-web
 
-ssh -L 8000:127.0.0.1:8000 itsec01@172.16.24.42 (run on host)
+ssh -L 8000:127.0.0.1:8000 username@172.16.24.42 (run on host)
+```
 
 ### 9.6 One-command runtime status check
 
@@ -638,6 +628,7 @@ sudo tail -n 50 /var/log/cape-runtime-check.log 2>/dev/null || true
 ```
 
 Check virtual network:
+```bash
 
 systemctl is-active libvirtd
 
@@ -648,6 +639,7 @@ ip -br addr show virbr0
 systemctl is-active cape-rooter cape cape-processor cape-web postgresql cron
 
 ss -lntp | grep -E '2042|27017'
+```
 
 Add log rotation:
 
@@ -712,17 +704,18 @@ virsh -c qemu:///system domiflist cuckoo1
 ## 12. Install Windows 10 and VirtIO drivers
 
 Connect to this host through port 5905, use Tight VNC to connect (Run on hardware host not VM) – forward port bc Ubuntu Server do not have GUI.
+```bash
 
-ssh -L 5905:127.0.0.1:5900 itsec01@172.16.24.42
+ssh -L 5905:127.0.0.1:5900 username@172.16.24.42
+```
 
 ### 12.1 Windows setup
 
 Boot the VM and complete Windows 10 Pro 22H2 x64 installation. When Windows Setup cannot see the VirtIO disk, load the storage driver from the VirtIO ISO appropriate for Windows 10 amd64.
+```bash
 
-vioscsi\w10\amd64
-
-OR
-viostor\w10\amd64
+vioscsi\w10\amd64 OR viostor\w10\amd64
+```
 
 ### 12.2 NIC driver
 
@@ -1142,6 +1135,7 @@ git status --short
 ## 23. Quick Commands
 
 Health check:
+```bash
 
 systemctl --no-pager --full status cape-rooter cape cape-processor cape-web postgresql cron
 
@@ -1164,8 +1158,10 @@ virsh -c qemu:///system snapshot-list cuckoo1
 virsh -c qemu:///system snapshot-info cuckoo1 clean-realistic
 
 tail -n 50 /var/log/cape-runtime-check.log
+```
 
 Quick CAPE log:
+```bash
 
 journalctl -u cape -f
 
@@ -1174,44 +1170,60 @@ journalctl -u cape-rooter -n 50 --no-pager
 journalctl -u cape-processor -n 50 --no-pager
 
 journalctl -u cape-web -n 50 --no-pager
+```
 
 Restart CAPE
+```bash
 
 systemctl restart cape cape-rooter cape-processor cape-web
+```
 
 Submit Malware:
+```bash
 
 sudo -u cape -H /etc/poetry/bin/poetry run python utils/submit.py --route internet /srv/malware-samples/submit/3c2d602ddfa3fb7fdc5aedc735a07cab7ee70a77e739070538d03dca17cd579d.ps1
+```
 
 Malware files will be located at /srv/malware-samples, which have 2 folders archive and submit
 
 Check Task in DB
+```bash
 
 sudo -u postgres psql -d cape -c "SELECT id,status,target,added_on FROM tasks ORDER BY id DESC LIMIT 10;"
+```
 
 Check VM State
+```bash
 
 virsh -c qemu:///system domstate cuckoo1
+```
 
 Start and Destroy VM
+```bash
 
 virsh -c qemu:///system start cuckoo1
 
 virsh -c qemu:///system destroy cuckoo1
+```
 
 Check snapshot
+```bash
 
 virsh -c qemu:///system snapshot-list cuckoo1
+```
 
 Clean old analysis result
+```bash
 
 du -sh /opt/CAPEv2/storage/analyses
 
 ls -lah /opt/CAPEv2/storage/analyses
 
 rm -rf /opt/CAPEv2/storage/analyses/15
+```
 
 Cleaner.py:
+```bash
 
 systemctl stop cape cape-processor
 
@@ -1222,10 +1234,13 @@ sudo -u cape -H /etc/poetry/bin/poetry run python utils/cleaners.py --clean (kh�
 sudo -u cape -H /etc/poetry/bin/poetry run python utils/cleaners.py --clean --delete-mongo (sạch analysis report
 
 systemctl start cape cape-processor
+```
 
 Forward port:
+```bash
 
-ssh -L 8000:127.0.0.1:8000 itsec01@172.16.24.42 (run on host)
+ssh -L 8000:127.0.0.1:8000 username@172.16.24.42 (run on host)
+```
 
 ## 24. Source notes and deployment-specific decisions
 
